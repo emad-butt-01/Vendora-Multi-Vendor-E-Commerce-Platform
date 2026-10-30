@@ -1,0 +1,40 @@
+# Local dev: run `npm run dev` in the repo root — Vite (5173) + Express (5000)
+# with hot reload. This compose file is for one-command demo deployment:
+#
+#   docker-compose up --build
+#
+# Then open http://localhost:5000 (the API container also serves the built
+# SPA). MongoDB persists in the `mongo-data` volume so reseeding between
+# runs is one `docker-compose down -v` away.
+
+services:
+  mongo:
+    image: mongo:6
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    ports:
+      - "5000:5000"
+    # Pull secrets from server/.env so this file stays committable. See
+    # .env.example for the full list — at minimum MONGODB_URI override is
+    # needed because the default points at localhost, not the mongo service.
+    env_file:
+      - ./server/.env
+    environment:
+      NODE_ENV: production
+      MONGODB_URI: mongodb://mongo:27017/vendora
+      CLIENT_ORIGIN: http://localhost:5000
+      SERVE_CLIENT: "1"
+
+volumes:
+  mongo-data:

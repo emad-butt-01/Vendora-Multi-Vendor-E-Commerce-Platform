@@ -1,0 +1,30 @@
+# Build artifacts + secrets — never copied into the image.
+node_modules
+**/node_modules
+.git
+.gitignore
+.env
+**/.env
+**/.env.local
+.vscode
+.idea
+
+# Build outputs (the multi-stage build produces these inside the image).
+dist
+**/dist
+client/dist
+
+# Logs + OS junk.
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# Demo / docs / dev tooling not needed at runtime.
+demo-assets
+docs
+
+# Docker meta — circular copy.
+Dockerfile
+docker-compose.yml
+.dockerignore

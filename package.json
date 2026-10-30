@@ -1,0 +1,32 @@
+{
+  "name": "vendora",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Vendora — multi-vendor e-commerce platform",
+  "workspaces": [
+    "client",
+    "server",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,client -c blue,magenta \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "npm run dev --workspace client",
+    "dev:server": "npm run dev --workspace server",
+    "build:client": "npm run build --workspace client",
+    "seed:admin": "npm run seed:admin --workspace server",
+    "smoke:auth": "npm run smoke:auth --workspace server",
+    "smoke:vendor": "npm run smoke:vendor --workspace server",
+    "smoke:products": "npm run smoke:products --workspace server",
+    "smoke:storefront": "npm run smoke:storefront --workspace server",
+    "smoke:cart": "npm run smoke:cart --workspace server",
+    "smoke:checkout": "npm run smoke:checkout --workspace server",
+    "stripe:listen": "npm run stripe:listen --workspace server",
+    "lint": "echo \"lint not configured yet\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  }
+}
